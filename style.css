@@ -7,22 +7,60 @@ body{
     text-align:center;
 }
 
-body, html {
-  height: 100%;
+.grid-container{
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: blanchedalmond;
+  padding: 10px;
 }
 
-.parallax {
-  /* The image used */
-  background-image: url(Images/kitten2.jpg);
+.item{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
 
-  /* Full height */
-  height: 100%;
+.item2{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  grid-column: span 2;
+}
 
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.item3{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  align-content: center;
+  text-align: center;
+  grid-column: span
+}
+
+nav{
+  background-color: antiquewhite;
+}
+
+nav ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li{
+  display:inline;
+  margin-right: 20px;
+}
+
+nav a{
+  color: rgb(0, 0, 0);
+  text-decoration: none;
 }
 
 h1{
