@@ -40,7 +40,7 @@ body{
   padding: 20px;
   align-content: center;
   text-align: center;
-  grid-column: span
+  grid-column: span;
 }
 
 nav{

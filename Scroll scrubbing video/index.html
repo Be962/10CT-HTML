@@ -1,0 +1,22 @@
+<div style="height: 4000px;"> <!-- Creates scrolling space -->
+  <video id="scrollVideo" style="position: fixed; top: 10px; left: 10px; width: 1920px;" muted playsinline>
+    <source src="AerialFixed.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+  const video = document.getElementById('scrollVideo');
+
+  window.addEventListener('scroll', () => {
+    // Calculate the total scrollable height
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    
+    // Get current scroll position as a ratio between 0 and 1
+    const scrollFraction = window.scrollY / maxScroll;
+    
+    // Assign calculated time back to the video
+    if (video.duration) {
+      video.currentTime = scrollFraction * video.duration;
+    }
+  });
+</script>
