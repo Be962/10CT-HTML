@@ -1,22 +1,90 @@
-<div style="height: 4000px;"> <!-- Creates scrolling space -->
-  <video id="scrollVideo" style="position: fixed; top: 10px; left: 10px; width: 1920px;" muted playsinline>
-    <source src="AerialFixed.mp4" type="video/mp4">
-  </video>
+<div style="height: 10000px;"> <!-- Large scrolling space -->
+  <div style="position: fixed; top: 10px; left: 10px; width: 1920px; height: 1080px;">
+    <!-- Clip 1 (Scrollable) -->
+    <video id="scrollVideo1" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 3;" muted playsinline>
+      <source src="AerialFixed.mp4" type="video/mp4">
+    </video>
+
+    <!-- Transition Clip (Auto-plays on its own) -->
+    <video id="transitionVideo" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 2; display: none;" muted playsinline>
+      <source src="Transition1.gif" type="img/gif">
+    </video>
+
+    <!-- Clip 2 (Scrollable) -->
+    <video id="scrollVideo2" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 1; display: none;" muted playsinline>
+      <source src="Trees.mp4" type="video/mp4">
+    </video>
+  </div>
 </div>
 
 <script>
-  const video = document.getElementById('scrollVideo');
+  const video1 = document.getElementById('scrollVideo1');
+  const transVideo = document.getElementById('transitionVideo');
+  const video2 = document.getElementById('scrollVideo2');
+
+  // Track the state of the automatic transition
+  let transitionStarted = false;
+  let transitionFinished = false;
 
   window.addEventListener('scroll', () => {
-    // Calculate the total scrollable height
+    if (!video1.duration || !video2.duration) return;
+
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    
-    // Get current scroll position as a ratio between 0 and 1
     const scrollFraction = window.scrollY / maxScroll;
     
-    // Assign calculated time back to the video
-    if (video.duration) {
-      video.currentTime = scrollFraction * video.duration;
+    // The total timeline ONLY includes the two scrollable videos
+    const totalScrollDuration = video1.duration + video2.duration;
+    const currentTargetTime = scrollFraction * totalScrollDuration;
+
+    // ZONE 1: Scrolling through Video 1
+    if (currentTargetTime < video1.duration) {
+      // If user scrolls back up, reset transition states
+      if (transitionFinished || transitionStarted) {
+        transitionStarted = false;
+        transitionFinished = false;
+        transVideo.pause();
+        transVideo.currentTime = 0;
+      }
+
+      video1.style.display = 'block';
+      transVideo.style.display = 'none';
+      video2.style.display = 'none';
+
+      video1.currentTime = currentTargetTime;
+    } 
+    // ZONE 2: The Transition Point (Frozen Scroll)
+    else if (currentTargetTime >= video1.duration && !transitionFinished) {
+      video1.style.display = 'none';
+      transVideo.style.display = 'block';
+      video2.style.display = 'none';
+
+      // Lock Video 1 at its final frame
+      video1.currentTime = video1.duration;
+
+      // Trigger the transition clip to play normally if it hasn't started yet
+      if (!transitionStarted) {
+        transitionStarted = true;
+        transVideo.play();
+      }
+    } 
+    // ZONE 3: Scrolling through Video 2 (Only unlocked after transition ends)
+    else if (transitionFinished) {
+      video1.style.display = 'none';
+      transVideo.style.display = 'none';
+      video2.style.display = 'block';
+
+      // Map the scroll position smoothly to Video 2's timeline
+      video2.currentTime = currentTargetTime - video1.duration;
     }
+  });
+
+  // Listener to unlock the scroll bar when the transition clip finishes
+  transVideo.addEventListener('ended', () => {
+    transitionFinished = true;
+    
+    // Force a minor update to the video layout immediately upon ending
+    video1.style.display = 'none';
+    transVideo.style.display = 'none';
+    video2.style.display = 'block';
   });
 </script>
