@@ -1,0 +1,185 @@
+html{
+    background-color:rgb(255, 255, 255);
+}
+
+body{
+    background-color:rgb(255, 255, 255);
+    text-align:center;
+}
+
+.grid-container{
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: blanchedalmond;
+  padding: 10px;
+}
+
+.item{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+.item2{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  grid-column: span 2;
+}
+
+.item3{
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  align-content: center;
+  text-align: center;
+  grid-column: span;
+}
+
+nav{
+  background-color: antiquewhite;
+}
+
+nav ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li{
+  display:inline;
+  margin-right: 20px;
+}
+
+nav a{
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+h1{
+    color:rgb(0, 0, 0);
+    font-family:'Times New Roman', Times, serif;
+}
+
+
+/* 1. Setup the keyframe for how the text enters */
+@keyframes comeUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(100px); /* Starts lower down */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);    /* Settles in its natural position */
+  }
+}
+
+/* 2. Apply the scroll timeline to the element */
+.scrub-text {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  
+  /* Link the keyframe animation */
+  animation-name: comeUpAndFade;
+  animation-fill-mode: both;
+  
+  /* CRITICAL: Binds animation progress to the viewport scroll */
+  animation-timeline: view();
+  
+  /* Tells the animation to start when the top of the element enters 
+     the bottom of the screen, and finish when it hits 40% of the viewport */
+  animation-range: entry 0% contain 40%;
+}
+
+/* Extra spacing just to make the page scrollable */
+.spacer {
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  font-family: sans-serif;
+  background: #f0f0f0;
+  color: #666;
+}
+/* style.css */
+
+.overlay-text {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin: 0;
+
+    /* LINK TO PIXEL RANGE TIMELINE */
+    animation: universalFade linear both;
+    animation-timeline: scroll(root);
+}
+
+/* Standard structural layout from before */
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; 
+}
+@keyframes universalFade {
+    /* Start Invisible (from 0px to 200px scroll position) */
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    /* Fade in and stay fully visible (from 400px to 600px scroll position) */
+    20%, 70% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    /* Fade out completely by the time scroll hits 1000px */
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.text-1 {
+    /* Shows up early, fades out around 400px scroll height */
+    animation-range: 0px 800px;
+}
+
+.text-2 {
+    /* Starts right after the first text fades out */
+    animation-range: 1600px 2400px;
+}
+
+.text-3 {
+    /* Appears deeper into the scroll height */
+    animation-range: 3000px 3600px;
+}
