@@ -155,11 +155,13 @@ h1{
     /* Start Invisible (from 0px to 200px scroll position) */
     0% {
         opacity: 0;
+        animation-timing-function: cubic-bezier(.55,0,.53,1);
         transform: translateY(20px);
     }
     /* Fade in and stay fully visible (from 400px to 600px scroll position) */
-    20%, 70% {
+    10%, 90% {
         opacity: 1;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         transform: translateY(0);
     }
     /* Fade out completely by the time scroll hits 1000px */
@@ -171,7 +173,7 @@ h1{
 
 .text-1 {
     /* Shows up early, fades out around 400px scroll height */
-    animation-range: 0px 800px;
+    animation-range: 400px 1200px;
 }
 
 .text-2 {
@@ -181,5 +183,5 @@ h1{
 
 .text-3 {
     /* Appears deeper into the scroll height */
-    animation-range: 3000px 3600px;
+    animation-range: 3200px 4000px;
 }
